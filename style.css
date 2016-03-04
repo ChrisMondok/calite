@@ -1,0 +1,7 @@
+.iteration.current {
+    background-color: #22beef;
+}
+
+.artifact.blocked {
+    background-color: rgba(255, 0, 0, 0.2);
+}

@@ -1,0 +1,40 @@
+<h2> {{iteration.Name}} </h2>
+
+<form name="viewOptionForm">
+    <div data-ng-repeat="option in viewOptions">
+        <label>
+            {{option.name}}
+            <input data-ng-model="option.show" type="checkbox" />
+        </label>
+    </div>
+</form>
+
+<div>
+    <table style="width: 100%">
+        <thead>
+            <tr>
+                <th> Schedule State </th>
+                <th> Id </th>
+                <th> Name </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="artifact in artifacts | filter: shouldShow | orderBy: getSortOrder" class="artifact {{artifact._type}}" data-ng-class="{blocked: artifact.Blocked}">
+                <td> {{artifact.ScheduleState}} </td>
+                <td> {{artifact.FormattedID}} </td>
+                <td> {{artifact.Name}} </td>
+                <td data-ng-if="artifact.Blocked"> 
+                    <button type="button" data-ng-click="unblock(artifact)"> Unblock </button>
+                </td>
+                <td data-ng-if="!artifact.Blocked" data-ng-switch="artifact.ScheduleState">
+                    <button data-ng-switch-when="Defined" type="button" data-ng-disabled="artifact.Owner && artifact.Owner._refObjectUUID != user.ObjectUUID"> Start </button>
+                    <button data-ng-switch-when="Defined" type="button" data-ng-disabled="artifact.Owner && artifact.Owner._refObjectUUID != user.ObjectUUID"> Assert Ownership </button>
+                    <button data-ng-switch-when="In-Progress" data-ng-disabled="artifact.Owner._refObjectUUID != user.ObjectUUID"> Complete </button>
+                    <button data-ng-switch-when="Complete" disabled> Accept </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div data-ng-show="artifacts.$resolved === false"> Loading... </div>
+</div>

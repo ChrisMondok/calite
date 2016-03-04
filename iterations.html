@@ -1,0 +1,6 @@
+<h2> Iterations </h2>
+<ol data-ng-if="iterations.$resolved">
+    <li class="iteration" data-ng-repeat="iteration in iterations" data-ng-class="{current: iteration.isCurrent()}">
+        <a data-ui-sref="^.iteration({iterationId: iteration.ObjectID})"> {{iteration.Name}} ({{iteration.ObjectID }})</a>
+    </li>
+</ol>
