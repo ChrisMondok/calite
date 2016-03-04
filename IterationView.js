@@ -28,12 +28,10 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
             };
 
             $scope.unblock = function(artifact) {
-                return artifact.unblock(function() {
-                    console.log("UNBLOCKED");
-                }, function(error) {
-                    console.error(error);
-                });
-            }
+                var x = artifact.unblock();
+				debugger;
+				return x;
+            };
 
             $scope.getSortOrder = function(artifact) {
                 return ['Defined', 'In-Progress', 'Completed', 'Accepted'].indexOf(artifact.ScheduleState);
