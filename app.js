@@ -42,17 +42,3 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
         }]
     });
 }]);
-
-angular.module('calite').config(['$httpProvider', function($httpProvider) {
-    $httpProvider.interceptors.push('ErrorStatusRewriter');
-}]);
-
-angular.module('calite').factory('ErrorStatusRewriter', function() {
-    return {
-        response: function(r) {
-            if(r.data.Errors && r.data.Errors.length && r.status == 200)
-                r.status = 400;
-            return r;
-        }
-    };
-});
