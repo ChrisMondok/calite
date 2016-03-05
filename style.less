@@ -1,0 +1,72 @@
+@import "colors.less";
+@import "widgets.less";
+
+body {
+	font-family: sans-serif;
+}
+
+.iteration.current {
+    background-color: @current-color;
+}
+
+.artifact-table {
+	.artifact.blocked {
+		background-color: @blocked-color;
+	}
+
+	.artifact-state-indicator {
+		margin: auto;
+	}
+}
+
+.artifact-actions {
+	white-space: nowrap;
+
+	button {
+		margin: 1ex;
+	}
+}
+
+.artifact-view {
+	header {
+		overflow: hidden;
+		line-height: 2em;
+
+		.artifact-state-indicator {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+
+	p.block-reason {
+		background-color: @blocked-color;
+	}
+
+	p.description {
+		border: 1px solid grey;
+		padding: 1em;
+	}
+}
+
+.artifact-state-indicator {
+	width: 1em;
+	height: 1em;
+	background-color: currentcolor;
+	border-radius: 50%;
+
+	&.Defined {
+		color: @defined-color;
+	}
+
+	&.In-Progress {
+		color: @in-progress-color;
+	}
+
+	&.Completed {
+		color: @completed-color;
+	}
+
+	&.Accepted {
+		color: @accepted-color;
+	}
+}

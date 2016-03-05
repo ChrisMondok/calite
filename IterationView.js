@@ -10,6 +10,7 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
         controller: ['$scope', 'iteration', 'user', function($scope, iteration, user) {
             $scope.iteration = iteration;
             $scope.user = user;
+			$scope.showEverything = false;
 
             $scope.types = [
                 {name: 'User Story', value: 'hierarchicalrequirement', show: true},
@@ -17,12 +18,13 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
             ];
 
             $scope.$watchCollection(getSelectedTypes, function(types) {
-                //"Name,Blocked,FormattedID,State,ScheduleState,ObjectID,Owner"
-                $scope.artifacts = $scope.iteration.getArtifacts({pagesize: 99, fetch: true, types: types.join(',')});
+				var fetch = "Name,Blocked,FormattedID,ScheduleState,ObjectID,Owner,Owner.ObjectID";
+                $scope.artifacts = $scope.iteration.getArtifacts({pagesize: 99, fetch: fetch, types: types.join(',')});
             });
 
             $scope.shouldShow = function(artifact) {
-                return artifactIsNotStarted(artifact)
+				return $scope.showEverything
+					|| artifactIsNotStarted(artifact)
                     || artifactHasNoOwner(artifact)
                     || artifactIsMine(artifact);
             };

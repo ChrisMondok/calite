@@ -11,9 +11,13 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
 				}).$promise;
             }]
         },
-        controller: ['$scope', 'artifact', 'user', function($scope, artifact, user) {
+        controller: ['$scope', '$sanitize', 'artifact', 'user', function($scope, $sanitize, artifact, user) {
             $scope.artifact = artifact;
 			$scope.user = user;
+
+			$scope.$watch('artifact.Description', function(desc) {
+				$scope.sanitizedDescription = $sanitize(desc);
+			});
         }]
     });
 }]);

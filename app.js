@@ -1,4 +1,4 @@
-angular.module('calite', ['ngResource', 'ui.router']);
+angular.module('calite', ['ngResource', 'ngSanitize', 'ui.router']);
 
 angular.module('calite').constant('rallyURL','https://rally1.rallydev.com/slm/webservice/v2.0/');
 

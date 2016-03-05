@@ -1,37 +1,47 @@
 <h2> {{iteration.Name}} </h2>
 
 <form name="viewOptionForm">
-    <div data-ng-repeat="option in viewOptions">
-        <label>
-            {{option.name}}
-            <input data-ng-model="option.show" type="checkbox" />
-        </label>
-    </div>
+	<fieldset>
+		<legend> View Options </legend>
+		<div data-ng-repeat="option in types">
+			<label>
+				<input data-ng-model="option.show" type="checkbox" />
+				{{option.name}}
+			</label>
+		</div>
+
+		<label>
+			<input data-ng-model="showEverything" type="checkbox" />
+			Show other people's stuff
+		</label>
+	</fieldset>
 </form>
 
 <div>
-    <table style="width: 100%">
-        <thead>
-            <tr>
-                <th> State </th>
-                <th> Id </th>
-                <th> Name </th>
+	<table class="artifact-table" style="width: 100%">
+		<thead>
+			<tr>
+				<th> </th>
+				<th> Id </th>
+				<th> Name </th>
 				<th> Owner </th>
-                <th> Action </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-ng-repeat="artifact in artifacts | filter: shouldShow | orderBy: getSortOrder" class="artifact {{artifact._type}}" data-ng-class="{blocked: artifact.Blocked}">
-                <td> {{artifact.ScheduleState}} </td>
+				<th> Action </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="artifact in artifacts | filter: shouldShow | orderBy: getSortOrder" class="artifact {{artifact._type}}" data-ng-class="{blocked: artifact.Blocked}">
+				<td>
+					<div data-artifact-state="artifact.ScheduleState"> </div>
+				</td>
 				<td>
 					<a data-ui-sref="artifact({artifactType: artifact._type, artifactId: artifact.ObjectID})"> {{artifact.FormattedID}} </a>
 				</td>
-                <td> {{artifact.Name}} </td>
-				<td data-ng-if="artifact.Owner"> {{artifact.Owner._refObjectName}} </td>
-				<td data-ng-if="!artifact.Owner"> No one </td>
+				<td> {{artifact.Name}} </td>
+				<td data-ng-if="artifact.Owner" data-owner-icon="artifact.Owner" style="text-align: center"> </td>
+				<td data-ng-if="!artifact.Owner"> </td>
 				<td data-artifact-actions="artifact" data-user-id="user.ObjectUUID"> </td>
-            </tr>
-        </tbody>
-    </table>
-    <div data-ng-show="artifacts.$resolved === false"> Loading... </div>
+			</tr>
+		</tbody>
+	</table>
+	<div data-ng-show="artifacts.$resolved === false"> Loading... </div>
 </div>

@@ -71,3 +71,10 @@ angular.module('calite').directive('artifactActions', function() {
 	};
 });
 
+angular.module('calite').directive('artifactState', function() {
+	return {
+		replace: true,
+		template: '<div class="artifact-state-indicator {{state}}"> </div>',
+		scope: { state: '=artifactState' }
+	};
+});

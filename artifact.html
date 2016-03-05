@@ -1,12 +1,17 @@
-<header>
-	{{artifact.FormattedID}} - {{artifact.Name}}
-	<div style="float: right" data-artifact-actions="artifact" data-user-id="user.ObjectUUID"> </div>
-</header>
+<div class="artifact-view" data-ng-class="{blocked: artifact.Blocked}">
+	<header class="toolbar">
+		<div data-artifact-state="artifact.ScheduleState"> </div>
+		[{{artifact.FormattedID}}] {{artifact.Name}}
+		<div style="float: right" data-artifact-actions="artifact" data-user-id="user.ObjectUUID"> </div>
+	</header>
 
-<p> {{artifact.Description}} </p>
+	<p data-ng-if="artifact.Blocked" class="block-reason" data-ng-bind="artifact.BlockedReason"> </p>
 
-<dl>
-	<dt> Owner </dt>
-	<dd data-ng-if="artifact.Owner"> {{artifact.Owner._refObjectName}} </dd>
-	<dd data-ng-if="!artifact.Owner"> No Owner </dd>
-</dl>
+	<p class="description" data-ng-bind-html="artifact.Description"> </p>
+
+	<dl>
+		<dt> Owner </dt>
+		<dd data-ng-if="artifact.Owner"> {{artifact.Owner._refObjectName}} </dd>
+		<dd data-ng-if="!artifact.Owner"> No Owner </dd>
+	</dl>
+</div>
