@@ -1,11 +1,20 @@
 angular.module('calite').factory('Artifact', ['$resource', 'rallyURL', 'GetSecurityToken', function($resource, rallyURL, GetSecurityToken) {
-    var Artifact = $resource(rallyURL + 'Artifact/:ObjectID', {ObjectID: '@ObjectID', type: '@_type'}, {
+    var Artifact = $resource(rallyURL + ':_type/:ObjectID', {ObjectID: '@ObjectID', type: '@_type'}, {
+		get: {
+			withCredentials: true,
+			transformResponse: function(response) {
+				response = JSON.parse(response);
+				if(Object.keys(response).length == 1)
+					return response[Object.keys(response)[0]];
+				return response;
+			}
+		},
         query: {
+			params: {_type: 'Artifact'},
             isArray:  true,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: function(response) {
-                return response.QueryResult.Results;
+                return JSON.parse(response).QueryResult.Results;
             }
         },
         update: {
@@ -13,16 +22,13 @@ angular.module('calite').factory('Artifact', ['$resource', 'rallyURL', 'GetSecur
             method: 'POST',
             withCredentials: true,
             requestType: 'json',
-            responseType: 'json',
             transformRequest: function(request) {
                 var model = {};
                 model[request._type] = request;
                 return JSON.stringify(model);
             },
             transformResponse: function(response) {
-                if(response.OperationResult.Errors.length)
-                    return response.OperationResult;
-                return undefined;
+				return JSON.parse(response).OperationResult.Object;
             }
         }
     });
@@ -33,20 +39,35 @@ angular.module('calite').factory('Artifact', ['$resource', 'rallyURL', 'GetSecur
 				ObjectID: this.ObjectID,
 				_type: this._type,
 				Blocked: false
-			});
+			}).$promise.then(function(response) {
+				angular.extend(this, response);
+			}.bind(this));
+		}.bind(this));
+    };
+
+    Artifact.prototype.block = function(reason) {
+		return GetSecurityToken().then(function(token) {
+			return Artifact.update({key: token}, {
+				ObjectID: this.ObjectID,
+				_type: this._type,
+				Blocked: false,
+				BlockedReason: reason
+			}).$promise.then(function(response) {
+				angular.extend(this, response);
+			}.bind(this));
 		}.bind(this));
     };
 
     return Artifact;
 }]);
 
-angular.module('calite').factory('GetSecurityToken', ['$http', '$q', function($http, $q) {
-	return function() {
-		return $http({
-			url:'https://rally1.rallydev.com/slm/webservice/v2.0/security/authorize',
-			withCredentials: true
-		}).then(function(response) {
-			return response.data.OperationResult.SecurityToken;
-		});
+angular.module('calite').directive('artifactActions', function() {
+	return {
+		templateUrl: 'artifactActions.html',
+		scope: {
+			artifact: '=artifactActions',
+			userId: '='
+		}
 	};
-}]);
+});
+

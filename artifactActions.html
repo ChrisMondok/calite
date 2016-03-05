@@ -1,0 +1,10 @@
+<div class="artifact-actions">
+	<div data-ng-if="artifact.Blocked"> 
+		<button type="button" data-ng-click="artifact.unblock()"> Unblock </button>
+	</div>
+	<div data-ng-if="!artifact.Blocked" data-ng-switch="artifact.ScheduleState">
+		<button data-ng-switch-when="Defined" type="button" data-ng-disabled="artifact.Owner && artifact.Owner._refObjectUUID != userId"> Start </button>
+		<button data-ng-switch-when="In-Progress" data-ng-disabled="artifact.Owner._refObjectUUID != userId"> Complete </button>
+		<button data-ng-switch-when="Complete" disabled> Accept </button>
+	</div>
+</div>

@@ -3,17 +3,15 @@ angular.module('calite').factory('Project', ['$resource', 'rallyURL', 'Iteration
         get: {
             isArray: false,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: function(response) {
-                return response.Project;
+                return JSON.parse(response).Project;
             }
         },
         query: {
             isArray: true,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: function(response) {
-                return response.QueryResult.Results;
+                return JSON.parse(response).QueryResult.Results;
             }
         }
     });

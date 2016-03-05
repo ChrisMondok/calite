@@ -1,0 +1,12 @@
+<header>
+	{{artifact.FormattedID}} - {{artifact.Name}}
+	<div style="float: right" data-artifact-actions="artifact" data-user-id="user.ObjectUUID"> </div>
+</header>
+
+<p> {{artifact.Description}} </p>
+
+<dl>
+	<dt> Owner </dt>
+	<dd data-ng-if="artifact.Owner"> {{artifact.Owner._refObjectName}} </dd>
+	<dd data-ng-if="!artifact.Owner"> No Owner </dd>
+</dl>

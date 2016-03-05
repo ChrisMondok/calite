@@ -16,23 +16,20 @@
                 <th> State </th>
                 <th> Id </th>
                 <th> Name </th>
+				<th> Owner </th>
                 <th> Action </th>
             </tr>
         </thead>
         <tbody>
             <tr data-ng-repeat="artifact in artifacts | filter: shouldShow | orderBy: getSortOrder" class="artifact {{artifact._type}}" data-ng-class="{blocked: artifact.Blocked}">
                 <td> {{artifact.ScheduleState}} </td>
-                <td> {{artifact.FormattedID}} </td>
+				<td>
+					<a data-ui-sref="artifact({artifactType: artifact._type, artifactId: artifact.ObjectID})"> {{artifact.FormattedID}} </a>
+				</td>
                 <td> {{artifact.Name}} </td>
-                <td data-ng-if="artifact.Blocked"> 
-                    <button type="button" data-ng-click="unblock(artifact)"> Unblock </button>
-                </td>
-                <td data-ng-if="!artifact.Blocked" data-ng-switch="artifact.ScheduleState">
-                    <button data-ng-switch-when="Defined" type="button" data-ng-disabled="artifact.Owner && artifact.Owner._refObjectUUID != user.ObjectUUID"> Start </button>
-                    <button data-ng-switch-when="Defined" type="button" data-ng-disabled="artifact.Owner && artifact.Owner._refObjectUUID != user.ObjectUUID"> Assert Ownership </button>
-                    <button data-ng-switch-when="In-Progress" data-ng-disabled="artifact.Owner._refObjectUUID != user.ObjectUUID"> Complete </button>
-                    <button data-ng-switch-when="Complete" disabled> Accept </button>
-                </td>
+				<td data-ng-if="artifact.Owner"> {{artifact.Owner._refObjectName}} </td>
+				<td data-ng-if="!artifact.Owner"> No one </td>
+				<td data-artifact-actions="artifact" data-user-id="user.ObjectUUID"> </td>
             </tr>
         </tbody>
     </table>

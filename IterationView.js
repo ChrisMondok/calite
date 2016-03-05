@@ -27,12 +27,6 @@ angular.module('calite').config(['$stateProvider', function($stateProvider) {
                     || artifactIsMine(artifact);
             };
 
-            $scope.unblock = function(artifact) {
-                var x = artifact.unblock();
-				debugger;
-				return x;
-            };
-
             $scope.getSortOrder = function(artifact) {
                 return ['Defined', 'In-Progress', 'Completed', 'Accepted'].indexOf(artifact.ScheduleState);
             };

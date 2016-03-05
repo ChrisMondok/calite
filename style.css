@@ -6,6 +6,10 @@
     background-color: rgba(255, 0, 0, 0.2);
 }
 
-.artifact button {
+.artifact-actions {
+	white-space: nowrap;
+}
+
+.artifact-actions button {
 	margin: 1ex;
 }

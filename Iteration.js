@@ -3,22 +3,19 @@ angular.module('calite').factory('Iteration', ['$resource', 'Artifact', 'rallyUR
         get: {
             isArray: false,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: function(r) {
-                return hydrate(r.Iteration);
+                return hydrate(JSON.parse(r).Iteration);
             }
         },
         query: {
             isArray:  true,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: transformArray
         },
         forProject: {
             url: rallyURL + 'Project/:ProjectID/Iterations',
             isArray: true,
             withCredentials: true,
-            responseType: 'json',
             transformResponse: transformArray
         }
     });
@@ -35,7 +32,7 @@ angular.module('calite').factory('Iteration', ['$resource', 'Artifact', 'rallyUR
     };
 
     function transformArray(response) {
-        return response.QueryResult.Results.map(hydrate);
+        return JSON.parse(response).QueryResult.Results.map(hydrate);
     }
 
     function hydrate(iteration) {
